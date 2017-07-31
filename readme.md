@@ -1,0 +1,57 @@
+# Laconico
+
+Laconico is a small app that retrieves random short articles from your [Pocket](https://getpocket.com/) list.
+You can try Laconico [here](laconico.surge.sh).
+
+Laconico is a pet project and was meant for my personal educational purposes.
+
+## Installation
+Prerequisites:
+- node and npm
+- Safari or Google Chrome
+
+In Safari: Preferences>Advances>Show Develop menu and select "Disable Cross-Origin Restrictions" from the Develop menu.
+
+In Chrome: install extension [Access-Control-Allow-Origin: *](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi)
+
+### Loading Dependencies:
+
+Clone this repo, go to the folder, install dependencies.
+```bash
+$ git clone ---
+$ cd laconico-app
+$ npm install --production
+```
+Run the app:
+```bash
+$ npm start
+```
+
+## Usage
+- Go to 127.0.0.1:3000
+- Check that "Disable Cross-Origin Restrictions" in Safari is selected or [Access-Control-Allow-Origin](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi) Chrome extension is installed and running
+- Go to Settigs page and click through authorization buttons
+- Set the desired settings
+- Return to Read page and click "Get Articles" button
+
+## Troubleshooting
+1. In Chrome: check that Access-Control-Allow-Origin is running. Even if the icon is green you should explicitly click on the icon.
+2. Clear the tokens associated with this app, by going to: http://getpocket.com/connected_accounts.
+3. Clear local storage
+4. Go through authorization process once again from the beggining
+5. Check dev console. There may be a clue.
+
+## Know issue
+- When you don't have enough articles in your Pocket (both, quantity and selected length) after pressing "Get Articles" button the tap with the app can freeze and you will see helper process gobbling up 100% CPU.
+- When something is wrong sometimes there is no GUI for that. Yet.
+- "Get Access Tocken" button returns successful alert even when it failed.
+
+## TODO
+- Get rid of Access-Control-Allow-Origin issue
+- Simplify authorization process
+- Add error handlers
+- Improve UI and UX
+
+## Credits
+App icon by [Rooty](https://thenounproject.com/term/news/1095762/#)
+[Creative Commons](https://creativecommons.org/licenses/by/3.0/us/)
