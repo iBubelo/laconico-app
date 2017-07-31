@@ -18,7 +18,7 @@ In Chrome: install extension [Access-Control-Allow-Origin: *](https://chrome.goo
 
 Clone this repo, go to the folder, install dependencies.
 ```bash
-$ git clone ---
+$ git clone git@github.com:iBubelo/laconico-app.git
 $ cd laconico-app
 $ npm install --production
 ```
