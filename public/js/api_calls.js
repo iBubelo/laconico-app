@@ -35,18 +35,34 @@ const filter_articles_by_length = array => {
 
 // Pick 3 random articles from list
 const get_three_randon_articles = articles_list => {
-  let result = [];
-  for (let i = 0; result.length < 3; i++) {
-    let pick_article =
-      articles_list[Math.floor(Math.random() * articles_list.length)];
-    if (!result.includes(pick_article)) {
-      result.push(pick_article);
-    }
+  // Check for corner case
+  if (articles_list.length === 0) {
+    alert(
+      "Oops. There are not enought articles in your Pocket or they are to short. Change settings."
+    );
   }
-  return result;
+
+  if (0 < articles_list.length && articles_list.length < 3) {
+    alert(
+      "Here are few articles. Change settings, if you want to see up to 3 articles."
+    );
+    return articles_list;
+  }
+
+  if (articles_list.length >= 3) {
+    let result = [];
+    for (let i = 0; result.length < 3; i++) {
+      let pick_article =
+        articles_list[Math.floor(Math.random() * articles_list.length)];
+      if (!result.includes(pick_article)) {
+        result.push(pick_article);
+      }
+    }
+    return result;
+  }
 };
 
-// Cicle through all recieved items; return as a list; append to html
+// Cycle through all received items; return a list; append to html
 const render_article_list = filtered_article_list => {
   const articles_list = filtered_article_list;
 
@@ -179,26 +195,10 @@ const get_articles = () => {
     .then(response => filter_articles_by_length(response))
     .then(response => get_three_randon_articles(response))
     .then(response => render_article_list(response))
-    // тут все работает. следить за articles_list в render_article_list
-    // .then(response => response.json())
-    // .then(response => render_article_list(response))
     .catch(err => {
       console.log("Ooops!: ", err);
-      alert("Something went wrong! Got to settings and repeat auth from the beggining.");
+      alert(
+        "Something went wrong! If you did get any message before go to settings and repeat auth from the beginning."
+      );
     });
 };
-
-// const article_chain = () => {
-//   new Promise((resolve, reject) => {
-//     resolve(get_articles());
-//   })
-//     .then(response => {
-//       render_article_list(response)})
-//     .catch(err => {
-//       console.log("Chain went wrong!", err);
-//     });
-// };
-
-// const article_chain = () => {
-//   render_article_list(get_articles());
-// }

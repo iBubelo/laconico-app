@@ -38,5 +38,5 @@ app.use((err, req, res, next) => {
 
 app.listen(3000, () => {
   console.log('Server started on port 3000...');
-  console.log('Open 127.0.01:3000 in Chrome');
+  console.log('Open 127.0.0.1:3000 in Chrome');
 });

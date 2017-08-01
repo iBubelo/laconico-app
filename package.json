@@ -1,10 +1,11 @@
 {
   "name": "laconico-app",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Laconico fetches random short articles from your Pocket",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "author": "Ilya Bubelo",
   "license": "MIT",
@@ -24,5 +25,13 @@
   },
   "quokka": {
     "babel": true
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iBubelo/laconico-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/iBubelo/laconico-app/issues"
+  },
+  "homepage": "https://github.com/iBubelo/laconico-app#readme"
 }
