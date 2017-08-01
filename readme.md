@@ -1,7 +1,7 @@
 # Laconico
 
 Laconico is a small app that retrieves random short articles from your [Pocket](https://getpocket.com/) list.
-You can try Laconico [here](laconico.surge.sh).
+You can try Laconico [here](http://laconico.surge.sh) without local installation.
 
 Laconico is a pet project and was meant for my personal educational purposes.
 
