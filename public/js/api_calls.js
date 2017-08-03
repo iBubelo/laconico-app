@@ -1,22 +1,20 @@
-// Default settings
-const set_dafault_settings = () => {
-  if (!localStorage.getItem("article_length")) {
-    localStorage.setItem("article_length", "1300");
-  }
-  if (!localStorage.getItem("count")) {
-    localStorage.setItem("count", "20");
-  }
-  if (!localStorage.getItem("sort")) {
-    localStorage.setItem("sort", "newest");
-  }
-  if (!localStorage.getItem("detail_type")) {
-    localStorage.setItem("detail_type", "simple");
-  }
-  if (!localStorage.getItem("content_type")) {
-    localStorage.setItem("content_type", "article");
-  }
+// Default settings values
+const defaultSettings = {
+  article_length: 1300,
+  count: 20,
+  sort: "newest",
+  detail_type: "simple",
+  content_type: "article"
 };
-set_dafault_settings();
+
+// Set default settings
+const setDefaultSettingsFunction = (() => {
+  Object.keys(defaultSettings).forEach(key => {
+    if (!localStorage.getItem(key)) {
+      localStorage.setItem(key, defaultSettings[key]);
+    }
+  });
+})();
 
 // Articles retrieval
 // Return articles shoter than article_length words
