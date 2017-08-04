@@ -18,16 +18,14 @@ const setDefaultSettingsFunction = (() => {
 
 // Articles retrieval
 // Return articles shoter than article_length words
-const filter_articles_by_length = array => {
+const filterArticlesByLengthFunction = array => {
   const list = Object.values(array.list);
-  let result = [];
-  for (let i = 0; i < list.length; i++) {
-    if (list[i].word_count < localStorage.getItem("article_length")) {
-      result.push(list[i]);
-    } else {
-      return result;
+  const result = list.reduce((acc, value) => {
+    if (value.word_count < localStorage.getItem("article_length")) {
+      acc.push(value);
     }
-  }
+    return acc;
+  }, []);
   return result;
 };
 
@@ -190,7 +188,7 @@ const get_articles = () => {
     .then(response => {
       return response.json();
     })
-    .then(response => filter_articles_by_length(response))
+    .then(response => filterArticlesByLengthFunction(response))
     .then(response => get_three_randon_articles(response))
     .then(response => render_article_list(response))
     .catch(err => {
