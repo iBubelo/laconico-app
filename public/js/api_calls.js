@@ -30,31 +30,40 @@ const filterArticlesByLengthFunction = array => {
 };
 
 // Pick 3 random articles from list
-const get_three_randon_articles = articles_list => {
+const getRandomArticlesFunction = filteredArticlesList => {
+  // To-Do: allow this value to be changed in settings
+  const numberOfArticles = 3;
+
   // Check for corner case
-  if (articles_list.length === 0) {
+  if (filteredArticlesList.length < numberOfArticles) {
     alert(
-      "Oops. There are not enought articles in your Pocket or they are to short. Change settings."
+      "If there are no (too few) articles, change settings to display more"
     );
+    return filteredArticlesList;
   }
 
-  if (0 < articles_list.length && articles_list.length < 3) {
-    alert(
-      "Here are few articles. Change settings, if you want to see up to 3 articles."
-    );
-    return articles_list;
+  // Do nothing if the list is too short
+  if (filteredArticlesList.length === numberOfArticles) {
+    return filteredArticlesList;
   }
 
-  if (articles_list.length >= 3) {
-    let result = [];
-    for (let i = 0; result.length < 3; i++) {
+  // Randomize and reduce the list to numberOfArticles, if the length is sufficient
+  if (filteredArticlesList.length > numberOfArticles) {
+    let currentListOfArticles = filteredArticlesList;
+    let newListOfArticles = [];
+
+    while (newListOfArticles.length !== numberOfArticles) {
       let pick_article =
-        articles_list[Math.floor(Math.random() * articles_list.length)];
-      if (!result.includes(pick_article)) {
-        result.push(pick_article);
+        currentListOfArticles[
+          Math.floor(Math.random() * currentListOfArticles.length)
+        ];
+      if (!newListOfArticles.includes(pick_article)) {
+        newListOfArticles.push(pick_article);
+        // Remove above added article from currentListOfArticles
+        currentListOfArticles.splice(pick_article, 1);
       }
     }
-    return result;
+    return newListOfArticles;
   }
 };
 
@@ -189,7 +198,7 @@ const get_articles = () => {
       return response.json();
     })
     .then(response => filterArticlesByLengthFunction(response))
-    .then(response => get_three_randon_articles(response))
+    .then(response => getRandomArticlesFunction(response))
     .then(response => render_article_list(response))
     .catch(err => {
       console.log("Ooops!: ", err);
