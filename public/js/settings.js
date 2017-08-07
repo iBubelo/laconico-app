@@ -38,40 +38,35 @@ const authorize = () => {
 };
 
 // Register request_token
-const get_access_token = () => {
+const getAccessTokenFunction = () => {
   // request variables
   const url = "https://getpocket.com/v3/oauth/authorize";
 
   // actual request
   fetch(url, {
     method: "POST",
-    // mode: 'no-cors',
+    headers: new Headers({
+      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+      "X-Accept": "application/json"
+    }),
     body:
       "consumer_key=" +
       consumer_key +
       "&code=" +
       localStorage.getItem("request_token") +
       "&redirect_uri=" +
-      redirect_uri,
-    headers: new Headers({
-      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
-    })
+      redirect_uri
   })
-    // Convert response to string
-    .then(response => {
-      return response
-        .text()})
-        // Extract the access_token and save into localStorage
-        .then(text => {
-          access_token = text.split("&")[0].split("=")[1];
-          console.log("The token obtained: ", access_token);
-          localStorage.setItem("access_token", access_token);
-          alert('You succesfuly complited authorization process. Return to Read page and click "Get Articles".');
-        })
-    
+    // Convert response to json
+    .then(response => response.json())
+    // Extract the access_token and save into localStorage
+    .then(access_token => {
+      localStorage.setItem("access_token", access_token.access_token);
+      alert('Authorization completed. Return to Read page and click "Get Articles".');
+    })
     .catch(err => {
       console.log("Ooops!: ", err);
-      alert("Something went wrong. Repeat auth from the beggining.");
+      alert("Something went wrong. Repeat auth from the beginning.");
     });
 };
 
