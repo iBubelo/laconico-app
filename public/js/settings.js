@@ -1,31 +1,28 @@
 // Authorization
 // Obtain request_token
-const get_request_token = () => {
+const getRequestTokenFunction = () => {
   // request variables
   const url = "https://getpocket.com/v3/oauth/request";
 
   // actual request
   fetch(url, {
     method: "POST",
-    // mode: 'no-cors',
     body: "consumer_key=" + consumer_key + "&redirect_uri=" + redirect_uri,
     headers: new Headers({
-      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+		  "X-Accept": "application/json"
     })
   })
-    // Convert response to string
-    .then(response => {
-      return response.text() })
-        // Extract the code and save into localStorage
-    .then(text => {
-          request_token = text.split("=")[1];
-          console.log("The key obtained: ", request_token);
-          localStorage.setItem("request_token", request_token);
-          alert("Request token successfuly obtained. Proceed with the next step.");
-        })
+    // Convert response to json
+    .then(response => response.json())
+    // Extract the code and save into localStorage
+    .then(request_token => {
+      localStorage.setItem("request_token", request_token.code)
+      alert("Request token successfully obtained. Proceed with the next step.");
+    })
     .catch(err => {
       console.log("Ooops!: ", err);
-      alert("Somthing went wrong. Try again.");
+      alert("Something went wrong. Try again.");
     });
 };
 
