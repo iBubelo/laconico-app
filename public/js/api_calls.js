@@ -114,7 +114,7 @@ const renderArticleListFunction = articles_list => {
 
     const archiveButtonFunction = article_id => {
       // API call to archive the article
-      archive_article(article_id);
+      archiveArticleFunction(article_id);
 
       // Change button after click
       button.className = "btn btn-success";
@@ -131,12 +131,12 @@ const renderArticleListFunction = articles_list => {
 };
 
 // Archive article
-const archive_article = item_id => {
+const archiveArticleFunction = item_id => {
   const url = "https://getpocket.com/v3/send";
   let actions = [
     {
       action: "archive",
-      item_id: item_id
+      item_id
     }
   ];
   let body =
@@ -148,10 +148,10 @@ const archive_article = item_id => {
     JSON.stringify(actions);
   fetch(url, {
     method: "POST",
-    body: body,
     headers: new Headers({
       "Content-Type": "application/x-www-form-urlencoded"
-    })
+    }),
+    body: body
   }).catch(err => console.log("Ooops!: ", err));
 };
 
