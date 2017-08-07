@@ -67,72 +67,67 @@ const getRandomArticlesFunction = filteredArticlesList => {
   }
 };
 
+const removeAllChildElements = element => {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+};
+
 // Cycle through all received items; return a list; append to html
-const render_article_list = filtered_article_list => {
-  const articles_list = filtered_article_list;
-
-  // select section on page
+const renderArticleListFunction = articles_list => {
+  // Select section on the page
   let section = document.getElementById("articles-list");
-  section.innerHTML = "";
+  // Purge previous output
+  removeAllChildElements(section);
 
-  for (var i = 0; i < articles_list.length; i++) {
-    // Create row for all elements
-    let row = document.createElement("div");
+  // Render list of articles
+  articles_list.forEach(function(current_value, index) {
+    const title = current_value.resolved_title;
+    const link = current_value.resolved_url;
+    const excerpt = current_value.excerpt;
 
-    // Create tags for article: link, header for titlw and well for excerpt
-    let link = document.createElement("a");
-    link.target = "_blank";
-
-    let header = document.createElement("h3");
-
-    let source = document.createElement("p");
-
-    let well = document.createElement("div");
-    well.className = "well";
-
-    let excerpt = document.createElement("p");
-    excerpt.textContent = "Excerpt from the article:";
-
-    let hr = document.createElement("hr");
-
-    // Assign values to tags
-    header.textContent = articles_list[i].resolved_title;
-    link.href = articles_list[i].resolved_url;
-    well.textContent = articles_list[i].excerpt;
     // Extract hostname from resolved_url with regex
-    source.textContent = articles_list[i].resolved_url.match(
+    const source = current_value.resolved_url.match(
       /:\/\/(www[0-9]?\.)?(.[^/:]+)/i
     )[2];
-    source.style.fontFamily = "serif";
-    source.className = "text-muted";
 
-    // Create archive_button
-    let archive_button = document.createElement("button");
-    archive_button.className = "btn btn-info";
-    archive_button.textContent = "Archive";
-    archive_button.href = "#";
+    let row = `
+    <div id='article-block-${index}'>
+      <a target='_blank' href='${link}'><h3>${title}</h3></a>
+      <p class='text-muted' style='font-family: serif;'>${source}</p>
+      <p>Excerpt from the article:</p>
+      <div class='well'>${excerpt}</div>
+      <button id='archive-button-${index}' class='btn btn-info' href='#'>Archive</button>
+      <hr>
+    </div>
+    `;
 
-    // Assign value and action to button
-    let article_id = articles_list[i].resolved_id;
-    archive_button.addEventListener("click", function() {
+    // Add row into section on the page
+    section.innerHTML += row;
+  });
+
+  // Assign value and action to "Archive" button
+  articles_list.forEach(function(current_value, index) {
+    const article_id = current_value.resolved_id;
+    const button = document.getElementById("archive-button-" + index);
+    const article = document.getElementById("article-block-" + index);
+
+    const archiveButtonFunction = article_id => {
+      // API call to archive the article
       archive_article(article_id);
+
       // Change button after click
-      this.className = "btn btn-success";
-      this.textContent = "Done";
-    });
+      button.className = "btn btn-success";
+      button.textContent = "Done";
 
-    // Assemble all elemnets
-    link.appendChild(header);
-    row.appendChild(link);
-    row.appendChild(source);
-    row.appendChild(excerpt);
-    row.appendChild(well);
-    row.appendChild(archive_button);
-    row.appendChild(hr);
+      // Remove article from the list
+      window.setTimeout(() => {
+        removeAllChildElements(article);
+      }, 1500);
+    };
 
-    // Put row into section on the page
-    section.appendChild(row);
-  }
+    button.onclick = archiveButtonFunction.bind(null, article_id);
+  });
 };
 
 // Archive article
@@ -199,7 +194,7 @@ const get_articles = () => {
     })
     .then(response => filterArticlesByLengthFunction(response))
     .then(response => getRandomArticlesFunction(response))
-    .then(response => render_article_list(response))
+    .then(response => renderArticleListFunction(response))
     .catch(err => {
       console.log("Ooops!: ", err);
       alert(
