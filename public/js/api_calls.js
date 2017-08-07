@@ -156,7 +156,7 @@ const archiveArticleFunction = item_id => {
 };
 
 // Retrieve articles
-const get_articles = () => {
+const getArticlesFunction = () => {
   // Request variables
   const url = "https://getpocket.com/v3/get";
   let body =
@@ -167,38 +167,35 @@ const get_articles = () => {
 
   // Add settings to request
   if (localStorage.getItem("count")) {
-    body = body + "&count=" + localStorage.getItem("count");
+    body += "&count=" + localStorage.getItem("count");
   }
   if (localStorage.getItem("content_type")) {
-    body = body + "&contentType=" + localStorage.getItem("content_type");
+    body += "&contentType=" + localStorage.getItem("content_type");
   }
   if (localStorage.getItem("sort")) {
-    body = body + "&sort=" + localStorage.getItem("sort");
+    body += "&sort=" + localStorage.getItem("sort");
   }
   if (localStorage.getItem("detail_type")) {
-    body = body + "&detailType=" + localStorage.getItem("detail_type");
+    body += "&detailType=" + localStorage.getItem("detail_type");
   }
 
   // actual request
   fetch(url, {
     method: "POST",
-    // mode: 'no-cors',
-    body: body,
     headers: new Headers({
       "Content-Type": "application/x-www-form-urlencoded"
-    })
+    }),
+    body: body
   })
     // Convert response to json
-    .then(response => {
-      return response.json();
-    })
-    .then(response => filterArticlesByLengthFunction(response))
-    .then(response => getRandomArticlesFunction(response))
-    .then(response => renderArticleListFunction(response))
+    .then(response => response.json())
+    .then(filterArticlesByLengthFunction)
+    .then(getRandomArticlesFunction)
+    .then(renderArticleListFunction)
     .catch(err => {
       console.log("Ooops!: ", err);
       alert(
-        "Something went wrong! If you did get any message before go to settings and repeat auth from the beginning."
+        "Something went wrong! If you didn't get any message before go to settings and repeat auth from the beginning."
       );
     });
 };
