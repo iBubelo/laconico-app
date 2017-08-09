@@ -74,14 +74,14 @@ const removeAllChildElements = element => {
 };
 
 // Cycle through all received items; return a list; append to html
-const renderArticleListFunction = articles_list => {
+const renderArticleListFunction = articlesList => {
   // Select section on the page
-  let section = document.getElementById("articles-list");
+  let sectionElement = document.getElementById("articles-list");
   // Purge previous output
-  removeAllChildElements(section);
+  removeAllChildElements(sectionElement);
 
   // Render list of articles
-  articles_list.forEach(function(current_value, index) {
+  articlesList.forEach(function(current_value, index) {
     const title = current_value.resolved_title;
     const link = current_value.resolved_url;
     const excerpt = current_value.excerpt;
@@ -103,30 +103,30 @@ const renderArticleListFunction = articles_list => {
     `;
 
     // Add row into section on the page
-    section.innerHTML += row;
+    sectionElement.innerHTML += row;
   });
 
   // Assign value and action to "Archive" button
-  articles_list.forEach(function(current_value, index) {
-    const article_id = current_value.resolved_id;
-    const button = document.getElementById("archive-button-" + index);
-    const article = document.getElementById("article-block-" + index);
+  articlesList.forEach(function(current_value, index) {
+    const articleID = current_value.resolved_id;
+    const buttonElement = document.getElementById("archive-button-" + index);
+    const articleElement = document.getElementById("article-block-" + index);
 
-    const archiveButtonFunction = article_id => {
+    const archiveButtonFunction = articleID => {
       // API call to archive the article
-      archiveArticleFunction(article_id);
+      archiveArticleFunction(articleID);
 
       // Change button after click
-      button.className = "btn btn-success";
-      button.textContent = "Done";
+      buttonElement.className = "btn btn-success";
+      buttonElement.textContent = "Done";
 
       // Remove article from the list
       window.setTimeout(() => {
-        removeAllChildElements(article);
+        removeAllChildElements(articleElement);
       }, 1500);
     };
 
-    button.onclick = archiveButtonFunction.bind(null, article_id);
+    buttonElement.onclick = archiveButtonFunction.bind(null, articleID);
   });
 };
 
