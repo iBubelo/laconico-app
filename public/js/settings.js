@@ -81,24 +81,24 @@ delayed_toggle = action => {
 };
 
 // Save settings values
-const save_settings = () => {
+function saveSettings() {
   // Set number of articles to retrieve
-  let count = document.getElementById("count");
-  localStorage.setItem("count", count.options[count.selectedIndex].value);
-  // Set length of an article to filter from recieved list
-  let length = document.getElementById("length");
+  const countElement = document.getElementById("count");
+  localStorage.setItem("count", countElement.options[countElement.selectedIndex].value);
+  // Set length of an article to filter from received list
+  const lengthElement = document.getElementById("length");
   localStorage.setItem(
     "article_length",
-    length.options[length.selectedIndex].value
+    lengthElement.options[lengthElement.selectedIndex].value
   );
   // Extract from Pocket by newest/oldest/alphabetically
-  let content_type = document.getElementById("sort");
-  localStorage.setItem("sort", sort.options[sort.selectedIndex].value);
+  const sortElement = document.getElementById("sort");
+  localStorage.setItem("sort", sortElement.options[sortElement.selectedIndex].value);
 };
 
 save_settings_button.addEventListener("click", function() {
   // Save settings to local storage
-  save_settings();
+  saveSettings();
   // Change button after click
   this.className = "btn btn-success";
   this.textContent = "Done";
