@@ -76,7 +76,7 @@ const resetButtonElement = document.getElementById("reset-button");
 const saveSettingsButtonElement = document.getElementById("save-settings");
 
 // Set timeout
-delayed_toggle = action => {
+const delayedToggle = action => {
   window.setTimeout(action, 1200);
 };
 
@@ -103,7 +103,7 @@ saveSettingsButtonElement.addEventListener("click", function() {
   saveSettingsButtonElement.className = "btn btn-success";
   saveSettingsButtonElement.textContent = "Done";
   // Revert to original value after timeout
-  delayed_toggle(toggleSaveButton);
+  delayedToggle(toggleSaveButton);
 });
 
 const toggleSaveButton = () => {
@@ -118,7 +118,7 @@ resetButtonElement.addEventListener("click", function() {
   resetButtonElement.className = "btn btn-success";
   resetButtonElement.textContent = "Done";
   // Revert to original value after timeout
-  delayed_toggle(toggleResetButton);
+  delayedToggle(toggleResetButton);
 });
 
 const toggleResetButton = () => {
