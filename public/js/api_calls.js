@@ -17,7 +17,7 @@ const setDefaultSettingsFunction = (() => {
 })();
 
 // Articles retrieval
-// Return articles shoter than article_length words
+// Return articles shorter than article_length words
 const filterArticlesByLengthFunction = array => {
   const list = Object.values(array.list);
   const result = list.reduce((acc, value) => {
