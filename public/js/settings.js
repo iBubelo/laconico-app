@@ -73,7 +73,7 @@ const getAccessTokenFunction = () => {
 // Settings and Reset
 // Get button by element id
 const resetButtonElement = document.getElementById("reset-button");
-var save_settings_button = document.getElementById("save-settings");
+const saveSettingsButtonElement = document.getElementById("save-settings");
 
 // Set timeout
 delayed_toggle = action => {
@@ -96,19 +96,19 @@ function saveSettings() {
   localStorage.setItem("sort", sortElement.options[sortElement.selectedIndex].value);
 };
 
-save_settings_button.addEventListener("click", function() {
+saveSettingsButtonElement.addEventListener("click", function() {
   // Save settings to local storage
   saveSettings();
   // Change button after click
-  this.className = "btn btn-success";
-  this.textContent = "Done";
-  // Revet to original value afer timeout
-  delayed_toggle(toggle_save_button);
+  saveSettingsButtonElement.className = "btn btn-success";
+  saveSettingsButtonElement.textContent = "Done";
+  // Revert to original value after timeout
+  delayed_toggle(toggleSaveButton);
 });
 
-toggle_save_button = () => {
-  save_settings_button.className = "btn btn-default";
-  save_settings_button.textContent = "Save";
+const toggleSaveButton = () => {
+  saveSettingsButtonElement.className = "btn btn-default";
+  saveSettingsButtonElement.textContent = "Save";
 };
 
 resetButtonElement.addEventListener("click", function() {
