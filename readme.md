@@ -30,7 +30,7 @@ $ npm start
 ## Usage
 - Go to 127.0.0.1:3000
 - Check that "Disable Cross-Origin Restrictions" in Safari is selected or [Access-Control-Allow-Origin](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi) Chrome extension is installed and running
-- Go to Settigs page and click through authorization buttons
+- Go to Settings page and click through authorization buttons
 - Set the desired settings
 - Return to Read page and click "Get Articles" button
 
@@ -38,13 +38,13 @@ $ npm start
 1. In Chrome: check that Access-Control-Allow-Origin is running. Even if the icon is green you should explicitly click on the icon.
 2. Clear the tokens associated with this app, by going to: http://getpocket.com/connected_accounts.
 3. Clear local storage
-4. Go through authorization process once again from the beggining
+4. Go through authorization process once again from the beginning
 5. Check dev console. There may be a clue.
 
 ## Known issues
 - ~~The tab with the app can freeze when you don't have enough articles in your Pocket (or selected read time is too short) and click "Get Articles" button. You will see helper process gobbling up 100% CPU too.~~
 - When something is wrong sometimes there is no GUI for that. Yet.
-- "Get Access Tocken" button returns successful alert even when it failed.
+- "Get Access Token" button returns successful alert even when it failed.
 
 ## To Do
 - Get rid of Access-Control-Allow-Origin issue
