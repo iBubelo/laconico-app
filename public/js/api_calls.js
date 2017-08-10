@@ -1,21 +1,3 @@
-// Default settings values
-const defaultSettings = {
-  article_length: 1300,
-  count: 20,
-  sort: "newest",
-  detail_type: "simple",
-  content_type: "article"
-};
-
-// Set default settings
-const setDefaultSettingsFunction = (() => {
-  Object.keys(defaultSettings).forEach(key => {
-    if (!localStorage.getItem(key)) {
-      localStorage.setItem(key, defaultSettings[key]);
-    }
-  });
-})();
-
 // Articles retrieval
 // Return articles shorter than article_length words
 const filterArticlesByLengthFunction = array => {
@@ -132,7 +114,7 @@ const renderArticleListFunction = articlesList => {
 
 // Archive article
 const archiveArticleFunction = item_id => {
-  const url = "https://getpocket.com/v3/send";
+  // Request variables
   let actions = [
     {
       action: "archive",
@@ -140,17 +122,15 @@ const archiveArticleFunction = item_id => {
     }
   ];
   let body =
-    "consumer_key=" +
-    consumer_key +
+    "consumerKey=" +
+    consumerKey +
     "&access_token=" +
     localStorage.getItem("access_token") +
     "&actions=" +
     JSON.stringify(actions);
-  fetch(url, {
-    method: "POST",
-    headers: new Headers({
-      "Content-Type": "application/x-www-form-urlencoded"
-    }),
+  fetch(pocketConfig.url.modify, {
+    method: pocketConfig.method,
+    headers: pocketConfig.headers,
     body: body
   }).catch(err => console.log("Ooops!: ", err));
 };
@@ -158,10 +138,9 @@ const archiveArticleFunction = item_id => {
 // Retrieve articles
 const getArticlesFunction = () => {
   // Request variables
-  const url = "https://getpocket.com/v3/get";
   let body =
     "consumer_key=" +
-    consumer_key +
+    consumerKey +
     "&access_token=" +
     localStorage.getItem("access_token");
 
@@ -180,11 +159,9 @@ const getArticlesFunction = () => {
   }
 
   // actual request
-  fetch(url, {
-    method: "POST",
-    headers: new Headers({
-      "Content-Type": "application/x-www-form-urlencoded"
-    }),
+  fetch(pocketConfig.url.retrieve, {
+    method: pocketConfig.method,
+    headers: pocketConfig.headers,
     body: body
   })
     // Convert response to json

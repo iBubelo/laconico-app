@@ -1,17 +1,10 @@
 // Authorization
 // Obtain request_token
 const getRequestTokenFunction = () => {
-  // request variables
-  const url = "https://getpocket.com/v3/oauth/request";
-
-  // actual request
-  fetch(url, {
-    method: "POST",
-    body: "consumer_key=" + consumer_key + "&redirect_uri=" + redirect_uri,
-    headers: new Headers({
-      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-		  "X-Accept": "application/json"
-    })
+  fetch(pocketConfig.url.request, {
+    method: pocketConfig.method,
+    body: "consumer_key=" + consumerKey + "&redirect_uri=" + redirectURI,
+    headers: pocketConfig.headers
   })
     // Convert response to json
     .then(response => response.json())
@@ -29,33 +22,26 @@ const getRequestTokenFunction = () => {
 // Redirect to Pocket auth page
 const authorize = () => {
   const url =
-    "https://getpocket.com/auth/authorize" +
+    pocketConfig.url.redirect +
     "?request_token=" +
     localStorage.getItem("request_token") +
     "&redirect_uri=" +
-    redirect_uri;
+    redirectURI;
   window.location.href = url;
 };
 
 // Register request_token
 const getAccessTokenFunction = () => {
-  // request variables
-  const url = "https://getpocket.com/v3/oauth/authorize";
-
-  // actual request
-  fetch(url, {
-    method: "POST",
-    headers: new Headers({
-      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-      "X-Accept": "application/json"
-    }),
+  fetch(pocketConfig.url.authorize, {
+    method: pocketConfig.method,
+    headers: pocketConfig.headers,
     body:
       "consumer_key=" +
-      consumer_key +
+      consumerKey +
       "&code=" +
       localStorage.getItem("request_token") +
       "&redirect_uri=" +
-      redirect_uri
+      redirectURI
   })
     // Convert response to json
     .then(response => response.json())
