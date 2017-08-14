@@ -46,12 +46,9 @@
         <h1>Settings</h1>
         <h3>Authorization</h3>
         <div>
-        <button class="btn btn-default" onclick="getRequestTokenFunction()">1. Get Request Token</button>
-        <p class="help-block">Associate this Laconico instance with Pocket.<br> You will see a confirmation alert.</p><br>
-        <button class="btn btn-default" onclick="authorize()">2. Authorize</button>
-        <p class="help-block">You will be redirected to Pocket website for further steps.<br> If nothing heppens that means you are already authorized and can proceed with the next step.</p><br>
-        <button class="btn btn-default" onclick="getAccessTokenFunction()">3. Get Access Token</button>
-        <p class="help-block">Final touch. You will see a confirmation alert.</p><br>
+          <button class="btn btn-default" onclick="authorization()">Connect with Pocket</button>
+          <p class="help-block">You will be redirected to Pocket for further steps and back to main page.</p>
+          <br>
         </div>
         <h3>General Settings</h3>
         <form>
@@ -109,5 +106,6 @@
 
 </body>
 <script rel="javascript" src="/js/settings.js"></script>
+<script rel="javascript" src="/js/authBegin.js"></script>
 
 </html>

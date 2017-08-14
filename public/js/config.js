@@ -7,7 +7,7 @@
  * Set redirectURI to desired value if you want to deploy on server.
 **/
 const consumerKey = "67872-e7aa9cb59d605cf8af04b2a2";
-const redirectURI = "http://127.0.0.1:3000/settings.html";
+const redirectURI = "http://127.0.0.1:3000/auth.html";
 
 /**
  * Pocket API configuration
