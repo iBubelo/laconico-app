@@ -86,9 +86,9 @@ const renderArticleListFunction = articlesList => {
     const buttonElement = document.getElementById("archive-button-" + index);
     const articleElement = document.getElementById("article-block-" + index);
 
-    const archiveButtonFunction = articleID => {
+    function archiveButton(articleID) {
       // API call to archive the article
-      archiveArticleFunction(articleID);
+      archiveArticle(articleID);
 
       // Change button after click
       buttonElement.className = "btn btn-success";
@@ -100,21 +100,21 @@ const renderArticleListFunction = articlesList => {
       }, 1500);
     };
 
-    buttonElement.onclick = archiveButtonFunction.bind(null, articleID);
+    buttonElement.onclick = archiveButton.bind(null, articleID);
   });
 };
 
 // Archive article
-const archiveArticleFunction = item_id => {
+function archiveArticle(item_id) {
   // Request variables
-  let actions = [
+  const actions = [
     {
       action: "archive",
       item_id
     }
   ];
-  let body =
-    "consumerKey=" +
+  const body =
+    "consumer_key=" +
     consumerKey +
     "&access_token=" +
     localStorage.getItem("access_token") +
