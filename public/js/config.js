@@ -45,3 +45,6 @@ const setDefaultSettingsFunction = (() => {
     }
   });
 })();
+
+// Default setting for number of articles in output
+const numberOfArticles = 3;

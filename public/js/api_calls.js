@@ -12,10 +12,7 @@ const filterArticlesByLengthFunction = array => {
 };
 
 // Pick 3 random articles from list
-const getRandomArticlesFunction = filteredArticlesList => {
-  // To-Do: allow this value to be changed in settings
-  const numberOfArticles = 3;
-
+function getRandomArticles(filteredArticlesList, numberOfArticles) {
   // Check for corner case
   if (filteredArticlesList.length < numberOfArticles) {
     alert(
@@ -28,26 +25,21 @@ const getRandomArticlesFunction = filteredArticlesList => {
   if (filteredArticlesList.length === numberOfArticles) {
     return filteredArticlesList;
   }
+  
+  // Shuffle array with Fisher-Yates algorithm and return first numberOfArticles items
+  let counter = filteredArticlesList.length;
+  while (counter > 0) {
+      const index = Math.floor(Math.random() * counter);
 
-  // Randomize and reduce the list to numberOfArticles, if the length is sufficient
-  if (filteredArticlesList.length > numberOfArticles) {
-    let currentListOfArticles = filteredArticlesList;
-    let newListOfArticles = [];
+      counter--;
 
-    while (newListOfArticles.length !== numberOfArticles) {
-      let pick_article =
-        currentListOfArticles[
-          Math.floor(Math.random() * currentListOfArticles.length)
-        ];
-      if (!newListOfArticles.includes(pick_article)) {
-        newListOfArticles.push(pick_article);
-        // Remove above added article from currentListOfArticles
-        currentListOfArticles.splice(pick_article, 1);
-      }
-    }
-    return newListOfArticles;
+      const temp = filteredArticlesList[counter];
+      filteredArticlesList[counter] = filteredArticlesList[index];
+      filteredArticlesList[index] = temp;
   }
-};
+
+  return filteredArticlesList.slice(0, numberOfArticles)
+}
 
 const removeAllChildElements = element => {
   while (element.firstChild) {
@@ -167,7 +159,7 @@ const getArticlesFunction = () => {
     // Convert response to json
     .then(response => response.json())
     .then(filterArticlesByLengthFunction)
-    .then(getRandomArticlesFunction)
+    .then(response => getRandomArticles(response, numberOfArticles))
     .then(renderArticleListFunction)
     .catch(err => {
       console.log("Ooops!: ", err);
