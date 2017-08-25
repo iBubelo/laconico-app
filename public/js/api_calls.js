@@ -40,7 +40,7 @@ function getRandomArticles(filteredArticlesList, numberOfArticles) {
   return filteredArticlesList.slice(0, numberOfArticles)
 }
 
-const removeAllChildElements = element => {
+function removeAllChildElements(element) {
   while (element.firstChild) {
     element.removeChild(element.firstChild);
   }
