@@ -44,12 +44,12 @@ $ npm start
 ## Known issues
 - ~~The tab with the app can freeze when you don't have enough articles in your Pocket (or selected read time is too short) and click "Get Articles" button. You will see helper process gobbling up 100% CPU too.~~
 - When something is wrong sometimes there is no GUI for that. Yet.
-- "Get Access Token" button returns successful alert even when it failed.
+- ~~"Get Access Token" button returns successful alert even when it failed.~~
 - Chrome is not supported because of Access-Control-Allow-Origin issue 
 
 ## To Do
 - Get rid of Access-Control-Allow-Origin issue
-- Simplify authorization process
+- ~~Simplify authorization process~~
 - Add error handlers
 - Improve UI and UX
 
