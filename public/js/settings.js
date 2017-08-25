@@ -24,7 +24,7 @@ function saveSettings() {
   localStorage.setItem("sort", sortElement.options[sortElement.selectedIndex].value);
 };
 
-saveSettingsButtonElement.addEventListener("click", function() {
+saveSettingsButtonElement.addEventListener("click", () => {
   // Save settings to local storage
   saveSettings();
   // Change button after click
