@@ -39,7 +39,7 @@ const toggleSaveButton = () => {
   saveSettingsButtonElement.textContent = "Save";
 };
 
-resetButtonElement.addEventListener("click", function() {
+resetButtonElement.addEventListener("click", () => {
   // Clear local storage
   localStorage.clear();
   // Change button on click
