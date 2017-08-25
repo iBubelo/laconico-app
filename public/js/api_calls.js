@@ -47,30 +47,42 @@ const removeAllChildElements = element => {
 };
 
 // Cycle through all received items; return a list; append to html
-const renderArticleListFunction = articlesList => {
+function renderArticleList(articlesList) {
   // Select section on the page
   let sectionElement = document.getElementById("articles-list");
   // Purge previous output
   removeAllChildElements(sectionElement);
 
   // Render list of articles
-  articlesList.forEach(function(current_value, index) {
-    const title = current_value.resolved_title;
-    const link = current_value.resolved_url;
-    const excerpt = current_value.excerpt;
+  articlesList.forEach((currentValue, index) => {
+    const title = currentValue.resolved_title;
+    const link = currentValue.resolved_url;
+    const excerpt = currentValue.excerpt;
 
     // Extract hostname from resolved_url with regex
-    const source = current_value.resolved_url.match(
+    const source = currentValue.resolved_url.match(
       /:\/\/(www[0-9]?\.)?(.[^/:]+)/i
     )[2];
 
     let row = `
     <div id='article-block-${index}'>
-      <a target='_blank' href='${link}'><h3>${title}</h3></a>
-      <p class='text-muted' style='font-family: serif;'>${source}</p>
-      <p>Excerpt from the article:</p>
-      <div class='well'>${excerpt}</div>
-      <button id='archive-button-${index}' class='btn btn-info' href='#'>Archive</button>
+      <a target='_blank' href='${link}'>
+        <h3>
+          ${title}
+        </h3>
+      </a>
+      <p class='text-muted' style='font-family: serif;'>
+        ${source}
+      </p>
+      <p>
+        Excerpt from the article:
+      </p>
+      <div class='well'>
+        ${excerpt}
+      </div>
+      <button id='archive-button-${index}' class='btn btn-info' href='#'>
+        Archive
+      </button>
       <hr>
     </div>
     `;
@@ -80,8 +92,8 @@ const renderArticleListFunction = articlesList => {
   });
 
   // Assign value and action to "Archive" button
-  articlesList.forEach(function(current_value, index) {
-    const articleID = current_value.resolved_id;
+  articlesList.forEach((currentValue, index) => {
+    const articleID = currentValue.resolved_id;
     const buttonElement = document.getElementById("archive-button-" + index);
     const articleElement = document.getElementById("article-block-" + index);
 
@@ -159,7 +171,7 @@ const getArticlesFunction = () => {
     .then(response => response.json())
     .then(filterArticlesByLength)
     .then(response => getRandomArticles(response, numberOfArticles))
-    .then(renderArticleListFunction)
+    .then(renderArticleList)
     .catch(err => {
       console.log("Ooops!: ", err);
       alert(
