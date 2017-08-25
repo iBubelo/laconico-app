@@ -1,19 +1,15 @@
 // Authorization Step 1. Obtain a request token.
-const getRequestToken = () => {
+function getRequestToken() {
   return fetch(pocketConfig.url.request, {
     method: pocketConfig.method,
     body: "consumer_key=" + consumerKey + "&redirect_uri=" + redirectURI,
     headers: pocketConfig.headers
   })
     .then(response => response.json())
-    .then(response => {
-      localStorage.setItem("request_token", response.code);
-      return response.code;
-    });
 };
 
 // Authorization Step 2. Redirect to Pocket to continue authorization.
-const redirect = requestToken => {
+function redirect(requestToken) {
   const url =
     pocketConfig.url.redirect +
     "?request_token=" +
@@ -23,6 +19,11 @@ const redirect = requestToken => {
   window.location.href = url;
 };
 
-const authorization = () => {
-  getRequestToken().then(response => redirect(response));
+function authorization() {
+  getRequestToken()
+    .then(response => {
+      localStorage.setItem("request_token", response.code);
+      return response.code;
+    })
+    .then(redirect);
 };
