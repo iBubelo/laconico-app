@@ -34,7 +34,7 @@ saveSettingsButtonElement.addEventListener("click", () => {
   delayedToggle(toggleSaveButton, 1200);
 });
 
-const toggleSaveButton = () => {
+function toggleSaveButton() {
   saveSettingsButtonElement.className = "btn btn-default";
   saveSettingsButtonElement.textContent = "Save";
 };
