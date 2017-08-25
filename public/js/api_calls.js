@@ -139,7 +139,7 @@ function archiveArticle(item_id) {
 };
 
 // Retrieve articles
-const getArticlesFunction = () => {
+function getArticles() {
   // Request variables
   let body =
     "consumer_key=" +
