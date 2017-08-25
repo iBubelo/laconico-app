@@ -1,13 +1,12 @@
 // Articles retrieval
 // Return articles shorter than article_length words
-const filterArticlesByLengthFunction = array => {
+function filterArticlesByLength(array) {
   const list = Object.values(array.list);
-  const result = list.reduce((acc, value) => {
+  const result = list.filter((value) => {
     if (value.word_count < localStorage.getItem("article_length")) {
-      acc.push(value);
-    }
-    return acc;
-  }, []);
+      return true;
+    };
+  });
   return result;
 };
 
@@ -158,7 +157,7 @@ const getArticlesFunction = () => {
   })
     // Convert response to json
     .then(response => response.json())
-    .then(filterArticlesByLengthFunction)
+    .then(filterArticlesByLength)
     .then(response => getRandomArticles(response, numberOfArticles))
     .then(renderArticleListFunction)
     .catch(err => {
