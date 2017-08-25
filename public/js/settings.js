@@ -49,7 +49,7 @@ resetButtonElement.addEventListener("click", () => {
   delayedToggle(toggleResetButton, 1200);
 });
 
-const toggleResetButton = () => {
+function toggleResetButton() {
   resetButtonElement.className = "btn btn-danger";
   resetButtonElement.textContent = "Reset Authorization & Settings";
 };
