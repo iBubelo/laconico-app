@@ -2,8 +2,8 @@
 function getRequestToken() {
   return fetch(pocketConfig.url.request, {
     method: pocketConfig.method,
-    body: "consumer_key=" + consumerKey + "&redirect_uri=" + redirectURI,
-    headers: pocketConfig.headers
+    headers: pocketConfig.headers,
+    body: "consumer_key=" + consumerKey + "&redirect_uri=" + redirectURI
   })
     .then(response => response.json())
 };
@@ -19,11 +19,22 @@ function redirect(requestToken) {
   window.location.href = url;
 };
 
-function authorization() {
+function extractRequestToken(response) {
+  return response.code;
+}
+
+function saveRequestToken(requestToken) {
+  localStorage.setItem("request_token", requestToken);
+}
+
+function beginAuthorization() {
   getRequestToken()
+    .then(extractRequestToken)
     .then(response => {
-      localStorage.setItem("request_token", response.code);
-      return response.code;
+      saveRequestToken(response);
+      redirect(response);
     })
-    .then(redirect);
+    .catch(err => {
+      console.log("Error during token request: ", err);
+    });
 };
