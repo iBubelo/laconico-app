@@ -80,7 +80,7 @@ function renderArticleList(articlesList) {
       <div class='well'>
         ${excerpt}
       </div>
-      <button id='archive-button-${index}' class='btn btn-info' href='#'>
+      <button id='archive-button-${index}' class='btn btn-info'>
         Archive
       </button>
       <hr>
