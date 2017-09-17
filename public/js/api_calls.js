@@ -54,7 +54,7 @@ function renderArticleList(articlesList) {
     const excerpt = currentValue.excerpt;
 
     // Extract hostname from resolved_url with regex
-    const source = currentValue.resolved_url.match(
+    const source = link.match(
       /:\/\/(www[0-9]?\.)?(.[^/:]+)/i
     )[2];
 
