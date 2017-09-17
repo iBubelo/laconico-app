@@ -60,7 +60,7 @@ function renderArticleList(articlesList) {
 
     let row = `
     <div id='article-block-${index}'>
-      <a target='_blank' href='${link}'>
+      <a target='_blank' rel='noopener noreferrer' href='${link}'>
         <h3>
           ${title}
         </h3>
