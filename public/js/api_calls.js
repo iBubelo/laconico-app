@@ -2,11 +2,7 @@
 // Return articles shorter than article_length words
 function filterArticlesByLength(array) {
   const list = Object.values(array.list);
-  const result = list.filter((value) => {
-    if (value.word_count < localStorage.getItem("article_length")) {
-      return true;
-    };
-  });
+  const result = list.filter((value) => value.word_count < localStorage.getItem("article_length"));
   return result;
 };
 
