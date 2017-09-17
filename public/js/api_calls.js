@@ -24,13 +24,11 @@ function getRandomArticles(filteredArticlesList, numberOfArticles) {
   // Shuffle array with Fisher-Yates algorithm and return first numberOfArticles items
   let counter = filteredArticlesList.length;
   while (counter > 0) {
-      const index = Math.floor(Math.random() * counter);
+    const index = Math.floor(Math.random() * counter);
+    counter--;
 
-      counter--;
-
-      const temp = filteredArticlesList[counter];
-      filteredArticlesList[counter] = filteredArticlesList[index];
-      filteredArticlesList[index] = temp;
+    // Swap counter and index in one destructuring expression
+    [filteredArticlesList[counter], filteredArticlesList[index]] = [filteredArticlesList[index], filteredArticlesList[counter]];
   }
 
   return filteredArticlesList.slice(0, numberOfArticles)
