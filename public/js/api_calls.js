@@ -49,9 +49,7 @@ function renderArticleList(articlesList) {
 
   // Render list of articles
   articlesList.forEach((currentValue, index) => {
-    const title = currentValue.resolved_title;
-    const link = currentValue.resolved_url;
-    const excerpt = currentValue.excerpt;
+    const { resolved_title: title, resolved_url: link, excerpt } = currentValue;
 
     // Extract hostname from resolved_url with regex
     const source = link.match(
