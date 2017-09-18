@@ -6,8 +6,7 @@
   <title>Laconico</title>
   <link rel="stylesheet" href="/css/bootstrap.css">
   <link rel="stylesheet" href="/css/navbar.css">
-  <script rel="javascript" src="js/api_calls.js"></script>
-  <script rel="javascript" src="js/key.js"></script>
+  <script rel="javascript" src="js/config.js"></script>
   <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16x16.png">
@@ -47,12 +46,9 @@
         <h1>Settings</h1>
         <h3>Authorization</h3>
         <div>
-        <button class="btn btn-default" onclick="get_request_token()">1. Get Request Token</button>
-        <p class="help-block">Associate this Laconico instance with Pocket.<br> You will see a confirmation alert.</p><br>
-        <button class="btn btn-default" onclick="authorize()">2. Authorize</button>
-        <p class="help-block">You will be redirected to Pocket website for further steps.<br> If nothing heppens that means you are already authorized and can proceed with the next step.</p><br>
-        <button class="btn btn-default" onclick="get_access_token()">3. Get Access Token</button>
-        <p class="help-block">Final touch. You will see a confirmation alert.</p><br>
+          <button class="btn btn-default" onclick="beginAuthorization()">Connect with Pocket</button>
+          <p class="help-block">You will be redirected to Pocket for further steps and back to main page.</p>
+          <br>
         </div>
         <h3>General Settings</h3>
         <form>
@@ -110,5 +106,6 @@
 
 </body>
 <script rel="javascript" src="/js/settings.js"></script>
+<script rel="javascript" src="/js/authBegin.js"></script>
 
 </html>
