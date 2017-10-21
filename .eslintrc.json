@@ -1,0 +1,21 @@
+{
+  "extends": "airbnb",
+  "plugins": [
+    "compat"
+  ],
+  "rules": {
+    "semi": ["error", "never"],
+    "arrow-parens": ["warn", "as-needed"],
+    "no-unexpected-multiline": "error",
+    "no-unused-expressions": ["warn", { "allowTernary": true }],
+    "no-console": "off",
+    "compat/compat": "warn"
+
+  },
+  "env": {
+    "browser": true
+  },
+  "settings": {
+    "polyfills": ["fetch"]
+  }
+}
