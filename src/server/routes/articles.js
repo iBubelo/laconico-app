@@ -9,6 +9,7 @@ import {
   deleteArticleFromDB,
   dropArticlesCollection,
 } from '../db'
+import errHandler from '../error-handler'
 
 const router = express.Router()
 
@@ -23,7 +24,7 @@ router.get('/add', async (req, res) => {
     await updateTimeStampInDB(articlesArray.since)
     res.sendStatus(200)
   } catch (err) {
-    console.log(err)
+    errHandler(err)
   }
 })
 
@@ -34,7 +35,7 @@ router.get('/resync', async (req, res) => {
     await dropArticlesCollection()
     res.redirect('/articles/add')
   } catch (err) {
-    console.log(err)
+    errHandler(err)
   }
 })
 
@@ -67,7 +68,7 @@ router.post('/render', async (req, res) => {
       res.send(await shuffleArray(list, req.body.articles_count))
     }
   } catch (err) {
-    console.log(err)
+    errHandler(err)
   }
 })
 
@@ -78,7 +79,7 @@ router.delete('/:id', async (req, res) => {
     await deleteArticleFromDB(req.params.id)
     await res.sendStatus(200)
   } catch (err) {
-    console.log(err)
+    errHandler(err)
   }
 })
 

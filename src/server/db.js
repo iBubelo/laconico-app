@@ -71,14 +71,14 @@ function saveOrUpdateRequestTokenInDB(token) {
   Token.findOne().exec((error, item) => {
     errHandler(error)
     !item
-      ? Token.create({ request_token: token }, err => errHandler(err))
-      : Token.findOneAndUpdate({}, { request_token: token }, err => errHandler(err))
+      ? Token.create({ request_token: token }, errHandler)
+      : Token.findOneAndUpdate({}, { request_token: token }, errHandler)
   })
 }
 
 // Save access token to DB
 function saveAccessTokenToDB(token) {
-  Token.findOneAndUpdate({}, { access_token: token }, err => errHandler(err))
+  Token.findOneAndUpdate({}, { access_token: token }, errHandler)
 }
 
 // Get time stamp of last Pocket API call from DB
@@ -94,10 +94,10 @@ function getLastUpdateTimeFromDB() {
 async function updateTimeStampInDB(receivedTimeStamp) {
   try {
     await getLastUpdateTimeFromDB()
-      ? Update.findOneAndUpdate({}, { last_update: receivedTimeStamp }, err => errHandler(err))
-      : Update.create({ last_update: receivedTimeStamp }, err => errHandler(err))
+      ? Update.findOneAndUpdate({}, { last_update: receivedTimeStamp }, errHandler)
+      : Update.create({ last_update: receivedTimeStamp }, errHandler)
   } catch (err) {
-    console.log(err)
+    errHandler(err)
   }
 }
 
@@ -127,23 +127,25 @@ function saveArticlesToDB(jsonArray) {
 function getArticlesFromDB(minWordCount, maxWordCount) {
   return Article.find({
     $and: [{ word_count: { $gte: minWordCount } }, { word_count: { $lte: maxWordCount } }],
-  }).select({ _id: 0, item_id: 1, resolved_url: 1, resolved_title: 1, excerpt: 1 })
+  })
+    .select({ _id: 0, item_id: 1, resolved_url: 1, resolved_title: 1, excerpt: 1 })
+    .exec(errHandler)
 }
 
 // Delete an article by ID from DB
 function deleteArticleFromDB(id) {
-  return Article.findOneAndRemove({ item_id: id }, err => errHandler(err))
+  Article.findOneAndRemove({ item_id: id }, errHandler)
 }
 
 // Drop Articles and Dates collection from DB
 function dropArticlesCollection() {
-  mongoose.connection.db.dropCollection('articles', err => errHandler(err))
-  mongoose.connection.db.dropCollection('dates', err => errHandler(err))
+  mongoose.connection.db.dropCollection('articles', errHandler)
+  mongoose.connection.db.dropCollection('dates', errHandler)
 }
 
 // Drop Tokens collection from DB
 function dropTokenCollection() {
-  mongoose.connection.db.dropCollection('tokens', err => errHandler(err))
+  mongoose.connection.db.dropCollection('tokens', errHandler)
 }
 
 export {

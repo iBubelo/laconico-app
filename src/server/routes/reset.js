@@ -3,6 +3,7 @@ import {
   dropArticlesCollection,
   dropTokenCollection,
 } from '../db'
+import errHandler from '../error-handler'
 
 const router = express.Router()
 
@@ -13,7 +14,7 @@ router.delete('/', async (req, res) => {
     await dropTokenCollection()
     res.sendStatus(200)
   } catch (err) {
-    console.log(err)
+    errHandler(err)
   }
 })
 

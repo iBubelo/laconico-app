@@ -9,6 +9,7 @@ import {
   saveOrUpdateRequestTokenInDB,
   saveAccessTokenToDB,
 } from '../db'
+import errHandler from '../error-handler'
 
 const router = express.Router()
 
@@ -22,7 +23,7 @@ router.get('/', async (req, res) => {
     // Redirect with request token
     res.redirect(redirectPath(token))
   } catch (err) {
-    console.log(err)
+    errHandler(err)
   }
 })
 
@@ -37,7 +38,7 @@ router.get('/done', async (req, res) => {
     // End authorization and return to main page
     res.redirect('/')
   } catch (err) {
-    console.log(err)
+    errHandler(err)
   }
 })
 
