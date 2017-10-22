@@ -38,7 +38,11 @@ saveSettingsButtonElement.addEventListener('click', () => {
 
 // API call to resync articles
 function resyncArticles() {
-  fetch('/articles/resync')
+  try {
+    fetch('/articles/resync')
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 function toggleResyncButton() {
@@ -46,8 +50,8 @@ function toggleResyncButton() {
   resyncButtonElement.textContent = 'Resync Articles'
 }
 
-resyncButtonElement.addEventListener('click', () => {
-  resyncArticles()
+resyncButtonElement.addEventListener('click', async () => {
+  await resyncArticles()
   // Change button on click
   resyncButtonElement.className = 'btn btn-success'
   resyncButtonElement.textContent = 'Done'
@@ -57,7 +61,11 @@ resyncButtonElement.addEventListener('click', () => {
 
 // Call API for full app reset
 function fullReset() {
-  fetch('/reset', { method: 'DELETE' })
+  try {
+    fetch('/reset', { method: 'DELETE' })
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 function toggleResetButton() {
@@ -65,10 +73,10 @@ function toggleResetButton() {
   resetButtonElement.textContent = 'Reset Authorization & Settings'
 }
 
-resetButtonElement.addEventListener('click', () => {
+resetButtonElement.addEventListener('click', async () => {
   // Clear local storage and call for full reset
   localStorage.clear()
-  fullReset()
+  await fullReset()
   // Change button on click
   resetButtonElement.className = 'btn btn-success'
   resetButtonElement.textContent = 'Done'

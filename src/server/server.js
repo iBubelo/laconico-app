@@ -4,7 +4,7 @@ import 'isomorphic-fetch'
 import express from 'express'
 import logger from 'morgan'
 import bodyParser from 'body-parser'
-import { WEB_PORT, isProd } from '../shared/config'
+import { WEB_PORT, IS_PROD } from '../shared/config'
 
 import auth from './routes/auth'
 import articles from './routes/articles'
@@ -45,5 +45,5 @@ app.use((err, req, res) => {
 })
 
 app.listen(WEB_PORT, () => {
-  console.log(`Server running on port ${WEB_PORT} ${isProd ? '(production)' : '(development)'}.`)
+  console.log(`Server running on port ${WEB_PORT} ${IS_PROD ? '(production)' : '(development)'}.`)
 })

@@ -6,9 +6,9 @@ function removeAllChildElements(element) {
 }
 
 // Archive article by ID
-function archiveArticle(ID) {
+function archiveArticle(id) {
   try {
-    fetch(`/articles/${ID}`, { method: 'DELETE' }).then(response => console.log(response.json))
+    fetch(`/articles/${id}`, { method: 'DELETE' })
   } catch (err) {
     console.log(err)
   }
@@ -57,13 +57,13 @@ function renderArticleList(articlesList) {
 
   // Assign value and action to "Archive" button
   articlesList.forEach((currentValue, index) => {
-    const articleID = currentValue.item_id
+    const articleId = currentValue.item_id
     const buttonElement = document.getElementById(`archive-button-${index}`)
     const articleElement = document.getElementById(`article-block-${index}`)
 
-    function archiveButton(ID) {
+    function archiveButton(id) {
       // API call to archive the article
-      archiveArticle(ID)
+      archiveArticle(id)
 
       // Change button after click
       buttonElement.className = 'btn btn-success'
@@ -75,13 +75,17 @@ function renderArticleList(articlesList) {
       }, 1500)
     }
 
-    buttonElement.onclick = archiveButton.bind(null, articleID)
+    buttonElement.onclick = archiveButton.bind(null, articleId)
   })
 }
 
 // Save articles to DB
 function saveArticles() {
-  return fetch('/articles/add')
+  try {
+    fetch('/articles/add')
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 // Render articles or redirect to another API call in case of an issue
