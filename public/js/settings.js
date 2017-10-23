@@ -41,7 +41,7 @@ function resyncArticles() {
   try {
     fetch('/articles/resync')
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 
@@ -51,12 +51,19 @@ function toggleResyncButton() {
 }
 
 resyncButtonElement.addEventListener('click', async () => {
-  await resyncArticles()
-  // Change button on click
-  resyncButtonElement.className = 'btn btn-success'
-  resyncButtonElement.textContent = 'Done'
-  // Revert to original value after timeout  
-  delayedToggle(toggleResyncButton, 1200)
+  try {
+    await resyncArticles()
+    // Change button on click
+    resyncButtonElement.className = 'btn btn-success'
+    resyncButtonElement.textContent = 'Done'
+    // Revert to original value after timeout  
+    delayedToggle(toggleResyncButton, 1200)
+  } catch (err) {
+    // Show the error to the user
+    resetButtonElement.className = 'btn btn-warning'
+    resetButtonElement.textContent = 'Error!'
+    delayedToggle(toggleResyncButton, 1200)
+  }
 })
 
 // Call API for full app reset
@@ -64,7 +71,7 @@ function fullReset() {
   try {
     fetch('/reset', { method: 'DELETE' })
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 
@@ -74,12 +81,19 @@ function toggleResetButton() {
 }
 
 resetButtonElement.addEventListener('click', async () => {
-  // Clear local storage and call for full reset
-  localStorage.clear()
-  await fullReset()
-  // Change button on click
-  resetButtonElement.className = 'btn btn-success'
-  resetButtonElement.textContent = 'Done'
-  // Revert to original value after timeout
-  delayedToggle(toggleResetButton, 1200)
+  try {
+    // Clear local storage and call for full reset
+    localStorage.clear()
+    await fullReset()
+    // Change button on click
+    resetButtonElement.className = 'btn btn-success'
+    resetButtonElement.textContent = 'Done'
+    // Revert to original value after timeout
+    delayedToggle(toggleResetButton, 1200)
+  } catch (err) {
+    // Show the error to the user
+    resetButtonElement.className = 'btn btn-warning'
+    resetButtonElement.textContent = 'Error!'
+    delayedToggle(toggleResetButton, 1200)
+  }
 })
