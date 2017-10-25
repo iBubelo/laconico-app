@@ -1,62 +1,34 @@
 // Articles retrieval
-// Return articles shorter than article_length words
-function filterArticlesByLength(array) {
-  const list = Object.values(array.list);
-  const result = list.filter((value) => value.word_count < localStorage.getItem("article_length"));
-  return result;
-};
-
-// Pick 3 random articles from list
-function getRandomArticles(filteredArticlesList, numberOfArticles) {
-  // Check for corner case
-  if (filteredArticlesList.length < numberOfArticles) {
-    alert(
-      "If there are no (too few) articles, change settings to display more"
-    );
-    return filteredArticlesList;
-  }
-
-  // Do nothing if the list is too short
-  if (filteredArticlesList.length === numberOfArticles) {
-    return filteredArticlesList;
-  }
-  
-  // Shuffle array with Fisher-Yates algorithm and return first numberOfArticles items
-  let counter = filteredArticlesList.length;
-  while (counter > 0) {
-    const index = Math.floor(Math.random() * counter);
-    counter--;
-
-    // Swap counter and index in one destructuring expression
-    [filteredArticlesList[counter], filteredArticlesList[index]] = [filteredArticlesList[index], filteredArticlesList[counter]];
-  }
-
-  return filteredArticlesList.slice(0, numberOfArticles)
-}
-
 function removeAllChildElements(element) {
   while (element.firstChild) {
-    element.removeChild(element.firstChild);
+    element.removeChild(element.firstChild)
   }
-};
+}
+
+// Archive article by ID
+function archiveArticle(id) {
+  try {
+    fetch(`/articles/${id}`, { method: 'DELETE' })
+  } catch (err) {
+    console.log(err)
+  }
+}
 
 // Cycle through all received items; return a list; append to html
 function renderArticleList(articlesList) {
   // Select section on the page
-  let sectionElement = document.getElementById("articles-list");
+  const sectionElement = document.getElementById('articles-list')
   // Purge previous output
-  removeAllChildElements(sectionElement);
+  removeAllChildElements(sectionElement)
 
   // Render list of articles
   articlesList.forEach((currentValue, index) => {
-    const { resolved_title: title, resolved_url: link, excerpt } = currentValue;
+    const { resolved_title: title, resolved_url: link, excerpt } = currentValue
 
     // Extract hostname from resolved_url with regex
-    const source = link.match(
-      /:\/\/(www[0-9]?\.)?(.[^/:]+)/i
-    )[2];
+    const source = link.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i)[2]
 
-    let row = `
+    const row = `
     <div id='article-block-${index}'>
       <a target='_blank' rel='noopener noreferrer' href='${link}'>
         <h3>
@@ -77,97 +49,80 @@ function renderArticleList(articlesList) {
       </button>
       <hr>
     </div>
-    `;
+    `
 
     // Add row into section on the page
-    sectionElement.innerHTML += row;
-  });
+    sectionElement.innerHTML += row
+  })
 
   // Assign value and action to "Archive" button
   articlesList.forEach((currentValue, index) => {
-    const articleID = currentValue.resolved_id;
-    const buttonElement = document.getElementById("archive-button-" + index);
-    const articleElement = document.getElementById("article-block-" + index);
+    const articleId = currentValue.item_id
+    const buttonElement = document.getElementById(`archive-button-${index}`)
+    const articleElement = document.getElementById(`article-block-${index}`)
 
-    function archiveButton(articleID) {
+    function archiveButton(id) {
       // API call to archive the article
-      archiveArticle(articleID);
+      archiveArticle(id)
 
       // Change button after click
-      buttonElement.className = "btn btn-success";
-      buttonElement.textContent = "Done";
+      buttonElement.className = 'btn btn-success'
+      buttonElement.textContent = 'Done'
 
       // Remove article from the list
       window.setTimeout(() => {
-        removeAllChildElements(articleElement);
-      }, 1500);
-    };
-
-    buttonElement.onclick = archiveButton.bind(null, articleID);
-  });
-};
-
-// Archive article
-function archiveArticle(item_id) {
-  // Request variables
-  const actions = [
-    {
-      action: "archive",
-      item_id
+        removeAllChildElements(articleElement)
+      }, 1500)
     }
-  ];
-  const body =
-    "consumer_key=" +
-    consumerKey +
-    "&access_token=" +
-    localStorage.getItem("access_token") +
-    "&actions=" +
-    JSON.stringify(actions);
-  fetch(pocketConfig.url.modify, {
-    method: pocketConfig.method,
-    headers: pocketConfig.headers,
-    body: body
-  }).catch(err => console.log("Ooops!: ", err));
-};
 
-// Retrieve articles
-function getArticles() {
-  // Request variables
-  let body =
-    "consumer_key=" +
-    consumerKey +
-    "&access_token=" +
-    localStorage.getItem("access_token");
-
-  // Add settings to request
-  if (localStorage.getItem("count")) {
-    body += "&count=" + localStorage.getItem("count");
-  }
-  if (localStorage.getItem("content_type")) {
-    body += "&contentType=" + localStorage.getItem("content_type");
-  }
-  if (localStorage.getItem("sort")) {
-    body += "&sort=" + localStorage.getItem("sort");
-  }
-  if (localStorage.getItem("detail_type")) {
-    body += "&detailType=" + localStorage.getItem("detail_type");
-  }
-
-  // actual request
-  fetch(pocketConfig.url.retrieve, {
-    method: pocketConfig.method,
-    headers: pocketConfig.headers,
-    body: body
+    buttonElement.onclick = archiveButton.bind(null, articleId)
   })
-    // Convert response to json
-    .then(response => response.json())
-    .then(filterArticlesByLength)
-    .then(response => getRandomArticles(response, numberOfArticles))
-    .then(renderArticleList)
-    .catch(err => {
-      console.log("Ooops!: ", err);
-      alert(
-        "Something went wrong! If you didn't get any message before go to settings and repeat auth from the beginning."
-      );
-    });
-};
+}
+
+// Save articles to DB
+function saveArticles() {
+  try {
+    fetch('/articles/add')
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+// Render articles or redirect to another API call in case of an issue
+// eslint-disable-next-line no-unused-vars
+async function renderArticles() {
+  // Get settings fom Local Storage
+  const body = {
+    articles_count: localStorage.getItem('articles_count'),
+    article_length_min: localStorage.getItem('article_length_min'),
+    article_length_max: localStorage.getItem('article_length_max'),
+  }
+
+  try {
+    const res = await fetch('/articles/render',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
+
+    // Redirect to setting if there is no access token in DB
+    if (res.status === 401) {
+      window.location.href = '/settings.html'
+    // Make an API call if there is no articles in DB yet and repeat this call
+    } else if (res.status === 204) {
+      const response = await saveArticles()
+      if (response.ok) renderArticles()
+    // Render articles if everything is normal
+    } else {
+      const data = await res.json()
+      await renderArticleList(data)
+    }
+  } catch (err) {
+    console.log(err)
+    // eslint-disable-next-line no-alert
+    alert('Something went wrong! Try again or resync articles from settings.')
+  }
+}
