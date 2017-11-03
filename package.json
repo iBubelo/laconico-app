@@ -10,7 +10,7 @@
     "prod:build": "rimraf lib && babel src -d lib",
     "prod:start": "NODE_ENV=production pm2 start lib/server/server.js && pm2 logs",
     "prod:stop": "pm2 delete server",
-    "test": "eslint src"
+    "test": "eslint src && flow"
   },
   "author": "Ilya Bubelo",
   "license": "MIT",
@@ -25,18 +25,23 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.1",
     "babel-preset-env": "^1.6.0",
+    "babel-preset-flow": "^6.23.0",
     "eslint": "^4.8.0",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-compat": "^1.0.4",
+    "eslint-plugin-flowtype": "^2.39.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.4.0",
+    "flow-bin": "^0.57.3",
     "rimraf": "^2.6.2"
   },
   "babel": {
     "presets": [
-      "env"
+      "env",
+      "flow"
     ]
   },
   "quokka": {

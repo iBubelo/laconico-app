@@ -1,3 +1,5 @@
+// @flow
+
 import 'babel-polyfill'
 import mongoose from 'mongoose'
 import errHandler from './error-handler'
@@ -67,7 +69,7 @@ function getAccessTokenFromDB() {
 }
 
 // Create a new request token if missing or update existing one in DB
-function saveOrUpdateRequestTokenInDB(token) {
+function saveOrUpdateRequestTokenInDB(token: string) {
   Token.findOne().exec((error, item) => {
     errHandler(error)
     !item
@@ -77,7 +79,7 @@ function saveOrUpdateRequestTokenInDB(token) {
 }
 
 // Save access token to DB
-function saveAccessTokenToDB(token) {
+function saveAccessTokenToDB(token: string) {
   Token.findOneAndUpdate({}, { access_token: token }, errHandler)
 }
 
@@ -91,7 +93,7 @@ function getLastUpdateTimeFromDB() {
 }
 
 // Create of update time stamp of last Pocket API call from DB
-async function updateTimeStampInDB(receivedTimeStamp) {
+async function updateTimeStampInDB(receivedTimeStamp: number) {
   try {
     await getLastUpdateTimeFromDB()
       ? Update.findOneAndUpdate({}, { last_update: receivedTimeStamp }, errHandler)
@@ -102,10 +104,10 @@ async function updateTimeStampInDB(receivedTimeStamp) {
 }
 
 // Save Pocket API call output into DB
-function saveArticlesToDB(jsonArray) {
+function saveArticlesToDB(jsonArray: {list: {} }) {
   const listOfArticles = Object.values(jsonArray.list)
 
-  listOfArticles.forEach(entry => {
+  listOfArticles.forEach((entry: any) => {
     Article.findOne({ item_id: entry.item_id }, (err, item) => {
       if (!item) {
         Article.create({
@@ -124,7 +126,7 @@ function saveArticlesToDB(jsonArray) {
 }
 
 // Find articles in DB based on word count
-function getArticlesFromDB(minWordCount, maxWordCount) {
+function getArticlesFromDB(minWordCount: number, maxWordCount: number): Object {
   return Article.find({
     $and: [{ word_count: { $gte: minWordCount } }, { word_count: { $lte: maxWordCount } }],
   })
@@ -133,7 +135,7 @@ function getArticlesFromDB(minWordCount, maxWordCount) {
 }
 
 // Delete an article by ID from DB
-function deleteArticleFromDB(id) {
+function deleteArticleFromDB(id: string) {
   Article.findOneAndRemove({ item_id: id }, errHandler)
 }
 

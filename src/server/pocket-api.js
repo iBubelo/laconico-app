@@ -1,3 +1,5 @@
+// @flow
+
 /**
  * Global vars
  * 
@@ -30,7 +32,7 @@ const pocketConfig = {
 }
 
 // Authorization Step 1. Obtain a request token.
-function getRequestToken() {
+function getRequestToken(): Promise<string> {
   return (
     fetch(pocketConfig.url.request, {
       method: pocketConfig.method,
@@ -43,13 +45,13 @@ function getRequestToken() {
 }
 
 // Authorization Step 2. Redirect to Pocket to continue authorization.
-function redirectPath(token) {
+function redirectPath(token: string) {
   return `${pocketConfig.url.redirect}?request_token=${token}&redirect_uri=${redirectURI}`
 }
 
 // Authorization Step 3
 // Convert request token into access token
-function convertRequestToken(code) {
+function convertRequestToken(code: string): Promise<string> {
   return fetch(pocketConfig.url.authorize, {
     method: pocketConfig.method,
     headers: pocketConfig.headers,
@@ -60,7 +62,7 @@ function convertRequestToken(code) {
 }
 
 // Retrieve articles from Pocket for storing in DB
-function getArticles(token, timeStamp) {
+function getArticles(token: string, timeStamp: number): Object {
   let body = `${pocketConfig.body}&access_token=${token}`
 
   // Add time stamp of last API call to request if exist
@@ -78,7 +80,7 @@ function getArticles(token, timeStamp) {
 
 // Archive an article based on ID
 // eslint-disable-next-line
-function archiveArticle(token, item_id) {
+function archiveArticle(token: string, item_id: number) {
   const actions = [
     {
       action: 'archive',

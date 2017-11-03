@@ -1,3 +1,5 @@
+// @flow
+
 import express from 'express'
 import { getArticles, archiveArticle } from '../pocket-api'
 import {
@@ -47,6 +49,7 @@ function shuffleArray(array, limit) {
   while (counter > 0) {
     const index = Math.floor(Math.random() * counter)
     counter -= 1;
+    // flow-disable-next-line
     [newArray[counter], newArray[index]] = [newArray[index], newArray[counter]]
   }
   return newArray.slice(0, limit)
